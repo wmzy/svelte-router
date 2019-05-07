@@ -58,6 +58,7 @@ module.exports = {
     mainFields: ['svelte', 'browser', 'module', 'main'],
     alias: {
       vue: 'vue/dist/vue.esm.js',
+      '@svel/router': path.join(__dirname, '..', 'src'),
       'vue-router': path.join(__dirname, '..', 'src')
     }
   },

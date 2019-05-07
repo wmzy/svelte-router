@@ -1,5 +1,5 @@
 <script>
-import {getRoute, RouterLink, RouterView} from 'vue-router'
+import {getRoute, RouterLink, RouterView} from '@svel/router'
 
 const route = getRoute()
 

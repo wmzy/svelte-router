@@ -1,5 +1,5 @@
 <script>
-import {HistoryRouter, RouterProvider, RouterLink, RouterView} from 'vue-router'
+import {HistoryRouter, RouterProvider, RouterLink, RouterView} from '@svel/router'
 import Foo from '../views/Foo.svelte'
 import Bar from '../views/Bar.svelte'
 import Nested from './Nested.svelte'

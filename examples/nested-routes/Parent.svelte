@@ -1,5 +1,5 @@
 <script>
-import {RouterView} from 'vue-router'
+import {RouterView} from '@svel/router'
 
 </script>
 
