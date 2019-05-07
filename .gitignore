@@ -4,9 +4,10 @@ TODOs.md
 test/e2e/reports
 test/e2e/screenshots
 selenium-debug.log
+/dist
 dist/*.gz
 dist/*.map
 explorations
 docs/.vuepress/dist
 yarn-error.log
-.vscode/settings.json
+.vscode
