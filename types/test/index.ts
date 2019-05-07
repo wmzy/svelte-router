@@ -1,43 +1,14 @@
-import Vue, { ComponentOptions, AsyncComponent } from "vue";
+import { SvelteComponent } from "svelte/internal";
 
-import VueRouter from "../index";
+import {HistoryRouter} from "../index";
 import { Route, RouteRecord, RedirectOption } from "../index";
-
-Vue.use(VueRouter);
 
 const Home = { template: "<div>home</div>" };
 const Foo = { template: "<div>foo</div>" };
 const Bar = { template: "<div>bar</div>" };
 const Async = () => Promise.resolve({ template: "<div>async</div>" })
 
-const Hook: ComponentOptions<Vue> = {
-  template: "<div>hook</div>",
-
-  beforeRouteEnter (to, from, next) {
-    route.params;
-    next("/");
-    next({ path: "/" });
-    next(vm => {
-      vm.$router;
-    });
-  },
-
-  beforeRouteLeave (to, from, next) {
-    route.params;
-    next("/");
-    next({ path: "/" });
-    next();
-  },
-
-  beforeRouteUpdate (to, from, next) {
-    route.params;
-    next("/");
-    next({ path: "/" });
-    next();
-  }
-};
-
-const router = new VueRouter({
+const router = new HistoryRouter({
   mode: "history",
   base: "/",
   fallback: false,
@@ -98,7 +69,6 @@ const router = new VueRouter({
   ]
 });
 
-const App: Vue = router.app;
 const mode: string = router.mode;
 
 const route: Route = router.currentRoute;
@@ -115,9 +85,9 @@ const matched: RouteRecord[] = route.matched;
 matched.forEach(m => {
   const path: string = m.path;
   const components: {
-    [key: string]: ComponentOptions<Vue> | typeof Vue | AsyncComponent
+    [key: string]: SvelteComponent
   } = m.components;
-  const instances: { [key: string]: Vue } = m.instances;
+  const instances: { [key: string]: SvelteComponent } = m.instances;
   const name: string | undefined = m.name;
   const parant: RouteRecord | undefined = m.parent;
   const redirect: RedirectOption | undefined = m.redirect;
@@ -171,22 +141,4 @@ router.go(-1);
 router.back();
 router.forward();
 
-const Components: (ComponentOptions<Vue> | typeof Vue | AsyncComponent)[] = router.getMatchedComponents();
-
-const vm = new Vue({
-  router,
-  template: `
-    <div id="app">
-      <h1>Basic</h1>
-      <ul>
-        <li><router-link to="/">/</router-link></li>
-        <li><router-link to="/foo">/foo</router-link></li>
-        <li><router-link to="/bar">/bar</router-link></li>
-      </ul>
-      <router-view class="view"></router-view>
-    </div>
-  `
-}).$mount("#app");
-
-vm.$router.push("/");
-vm.$route.params;
+const Components: (SvelteComponent)[] = router.getMatchedComponents();

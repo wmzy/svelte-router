@@ -1,22 +1,22 @@
-import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
+import { SvelteComponent } from "svelte/internal";
 
-type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent;
+type Component = SvelteComponent | Function;
 type Dictionary<T> = { [key: string]: T };
 type ErrorHandler = (err: Error) => void;
 
 export type RouterMode = "hash" | "history" | "abstract";
 export type RawLocation = string | Location;
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation);
-export type NavigationGuard<V extends Vue = Vue> = (
+export type NavigationGuard<V extends SvelteComponent = SvelteComponent> = (
   to: Route,
   from: Route,
   next: (to?: RawLocation | false | ((vm: V) => any) | void) => void
 ) => any
 
-export declare class VueRouter {
+export declare class Router {
   constructor (options?: RouterOptions);
 
-  app: Vue;
+  nextTick: Function;
   mode: RouterMode;
   currentRoute: Route;
 
@@ -40,8 +40,6 @@ export declare class VueRouter {
     normalizedTo: Location;
     resolved: Route;
   };
-
-  static install: PluginFunction<never>;
 }
 
 type Position = { x: number, y: number };
@@ -90,7 +88,7 @@ export interface RouteRecord {
   path: string;
   regex: RegExp;
   components: Dictionary<Component>;
-  instances: Dictionary<Vue>;
+  instances: Dictionary<Component>;
   name?: string;
   parent?: RouteRecord;
   redirect?: RedirectOption;

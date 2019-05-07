@@ -1,9 +1,9 @@
-import "./vue";
-import { VueRouter } from "./router";
-
-export default VueRouter;
+import { Router } from "./router";
 
 export {
+  Router as HistoryRouter,
+  Router as HashRouter,
+  Router as AbstractRouter,
   RouterMode,
   RawLocation,
   RedirectOption,
