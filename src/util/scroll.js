@@ -1,6 +1,6 @@
 /* @flow */
 
-import type Router from '../index'
+import type Router from '../router'
 import { assert } from './warn'
 import { getStateKey, setStateKey } from './push-state'
 
@@ -24,7 +24,7 @@ export function handleScroll (
   from: Route,
   isPop: boolean
 ) {
-  if (!router.app) {
+  if (!router.nextTick) {
     return
   }
 
@@ -38,7 +38,7 @@ export function handleScroll (
   }
 
   // wait until re-render finishes before scrolling
-  router.app.$nextTick(() => {
+  router.nextTick(() => {
     const position = getScrollPosition()
     const shouldScroll = behavior.call(router, to, from, isPop ? position : null)
 

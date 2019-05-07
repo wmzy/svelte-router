@@ -1,16 +1,11 @@
 /* @flow */
 
-import { _Vue } from '../install'
-import type Router from '../index'
+import type Router from '../router'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { warn, isError } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
-import {
-  flatten,
-  flatMapComponents,
-  resolveAsyncComponents
-} from '../util/resolve-components'
+import { resolveAsyncComponents } from '../util/resolve-components'
 
 export class History {
   router: Router;
@@ -106,19 +101,11 @@ export class History {
       return abort()
     }
 
-    const {
-      updated,
-      deactivated,
-      activated
-    } = resolveQueue(this.current.matched, route.matched)
+    const { activated } = resolveQueue(this.current.matched, route.matched)
 
     const queue: Array<?NavigationGuard> = [].concat(
-      // in-component leave guards
-      extractLeaveGuards(deactivated),
       // global before hooks
       this.router.beforeHooks,
-      // in-component update hooks
-      extractUpdateHooks(updated),
       // in-config enter guards
       activated.map(m => m.beforeEnter),
       // async components
@@ -161,23 +148,14 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
-      const postEnterCbs = []
-      const isValid = () => this.current === route
       // wait until async components are resolved before
-      // extracting in-component enter guards
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
-      const queue = enterGuards.concat(this.router.resolveHooks)
+      const queue = [].concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
           return abort()
         }
         this.pending = null
         onComplete(route)
-        if (this.router.app) {
-          this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => { cb() })
-          })
-        }
       })
     })
   }
@@ -231,101 +209,5 @@ function resolveQueue (
     updated: next.slice(0, i),
     activated: next.slice(i),
     deactivated: current.slice(i)
-  }
-}
-
-function extractGuards (
-  records: Array<RouteRecord>,
-  name: string,
-  bind: Function,
-  reverse?: boolean
-): Array<?Function> {
-  const guards = flatMapComponents(records, (def, instance, match, key) => {
-    const guard = extractGuard(def, name)
-    if (guard) {
-      return Array.isArray(guard)
-        ? guard.map(guard => bind(guard, instance, match, key))
-        : bind(guard, instance, match, key)
-    }
-  })
-  return flatten(reverse ? guards.reverse() : guards)
-}
-
-function extractGuard (
-  def: Object | Function,
-  key: string
-): NavigationGuard | Array<NavigationGuard> {
-  if (typeof def !== 'function') {
-    // extend now so that global mixins are applied.
-    def = _Vue.extend(def)
-  }
-  return def.options[key]
-}
-
-function extractLeaveGuards (deactivated: Array<RouteRecord>): Array<?Function> {
-  return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
-}
-
-function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
-  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
-}
-
-function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
-  if (instance) {
-    return function boundRouteGuard () {
-      return guard.apply(instance, arguments)
-    }
-  }
-}
-
-function extractEnterGuards (
-  activated: Array<RouteRecord>,
-  cbs: Array<Function>,
-  isValid: () => boolean
-): Array<?Function> {
-  return extractGuards(activated, 'beforeRouteEnter', (guard, _, match, key) => {
-    return bindEnterGuard(guard, match, key, cbs, isValid)
-  })
-}
-
-function bindEnterGuard (
-  guard: NavigationGuard,
-  match: RouteRecord,
-  key: string,
-  cbs: Array<Function>,
-  isValid: () => boolean
-): NavigationGuard {
-  return function routeEnterGuard (to, from, next) {
-    return guard(to, from, cb => {
-      next(cb)
-      if (typeof cb === 'function') {
-        cbs.push(() => {
-          // #750
-          // if a router-view is wrapped with an out-in transition,
-          // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
-          // is no longer valid.
-          poll(cb, match.instances, key, isValid)
-        })
-      }
-    })
-  }
-}
-
-function poll (
-  cb: any, // somehow flow cannot infer this is a function
-  instances: Object,
-  key: string,
-  isValid: () => boolean
-) {
-  if (
-    instances[key] &&
-    !instances[key]._isBeingDestroyed // do not reuse being destroyed instance
-  ) {
-    cb(instances[key])
-  } else if (isValid()) {
-    setTimeout(() => {
-      poll(cb, instances, key, isValid)
-    }, 16)
   }
 }

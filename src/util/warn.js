@@ -2,13 +2,13 @@
 
 export function assert (condition: any, message: string) {
   if (!condition) {
-    throw new Error(`[vue-router] ${message}`)
+    throw new Error(`[svelte-router] ${message}`)
   }
 }
 
 export function warn (condition: any, message: string) {
   if (process.env.NODE_ENV !== 'production' && !condition) {
-    typeof console !== 'undefined' && console.warn(`[vue-router] ${message}`)
+    typeof console !== 'undefined' && console.warn(`[svelte-router] ${message}`)
   }
 }
 

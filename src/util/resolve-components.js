@@ -1,6 +1,5 @@
 /* @flow */
 
-import { _Vue } from '../install'
 import { warn, isError } from './warn'
 
 export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
@@ -10,12 +9,12 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
     let error = null
 
     flatMapComponents(matched, (def, _, match, key) => {
-      // if it's a function and doesn't have cid attached,
+      // if it's a function and doesn't have `$set` method,
       // assume it's an async component resolve function.
       // we are not using Vue's default async resolving mechanism because
       // we want to halt the navigation until the incoming component has been
       // resolved.
-      if (typeof def === 'function' && def.cid === undefined) {
+      if (typeof def === 'function' && (!def.prototype || !def.prototype.$set)) {
         hasAsync = true
         pending++
 
@@ -24,9 +23,7 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
             resolvedDef = resolvedDef.default
           }
           // save resolved on async factory in case it's used elsewhere
-          def.resolved = typeof resolvedDef === 'function'
-            ? resolvedDef
-            : _Vue.extend(resolvedDef)
+          def.resolved = resolvedDef
           match.components[key] = resolvedDef
           pending--
           if (pending <= 0) {

@@ -1,6 +1,6 @@
 /* @flow */
 
-import type VueRouter from '../index'
+import type Router from '../router'
 import { stringifyQuery } from './query'
 
 const trailingSlashRE = /\/?$/
@@ -9,7 +9,7 @@ export function createRoute (
   record: ?RouteRecord,
   location: Location,
   redirectedFrom?: ?Location,
-  router?: VueRouter
+  router?: Router
 ): Route {
   const stringifyQuery = router && router.options.stringifyQuery
 

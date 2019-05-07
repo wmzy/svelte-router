@@ -1,6 +1,6 @@
 /* @flow */
 
-import type VueRouter from './index'
+import type Router from './router'
 import { resolvePath } from './util/path'
 import { assert, warn } from './util/warn'
 import { createRoute } from './util/route'
@@ -15,7 +15,7 @@ export type Matcher = {
 
 export function createMatcher (
   routes: Array<RouteConfig>,
-  router: VueRouter
+  router: Router
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 

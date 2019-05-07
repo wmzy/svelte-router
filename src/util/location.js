@@ -1,6 +1,6 @@
 /* @flow */
 
-import type VueRouter from '../index'
+import type Router from '../router'
 import { parsePath, resolvePath } from './path'
 import { resolveQuery } from './query'
 import { fillParams } from './params'
@@ -11,7 +11,7 @@ export function normalizeLocation (
   raw: RawLocation,
   current: ?Route,
   append: ?boolean,
-  router: ?VueRouter
+  router: ?Router
 ): Location {
   let next: Location = typeof raw === 'string' ? { path: raw } : raw
   // named target

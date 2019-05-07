@@ -1,26 +1,27 @@
 {
-  "name": "vue-router",
-  "version": "3.0.6",
-  "description": "Official router for Vue.js 2",
+  "name": "@svel/router",
+  "version": "0.1.0",
+  "description": "A router for Svelte.js",
   "author": "Evan You",
   "license": "MIT",
-  "main": "dist/vue-router.common.js",
-  "module": "dist/vue-router.esm.js",
-  "unpkg": "dist/vue-router.js",
-  "jsdelivr": "dist/vue-router.js",
+  "main": "dist/svelte-router.common.js",
+  "module": "dist/svelte-router.esm.js",
+  "svelte": "src/index.js",
+  "unpkg": "dist/svelte-router.js",
+  "jsdelivr": "dist/svelte-router.js",
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/vuejs/vue-router.git"
+    "url": "https://github.com/wmzy/svelte-router.git"
   },
   "typings": "types/index.d.ts",
   "files": [
-    "src/*.js",
+    "src/",
     "dist/*.js",
     "types/*.d.ts"
   ],
   "keywords": [
-    "vue",
+    "svelte",
     "router",
     "routing"
   ],
@@ -44,10 +45,13 @@
     "commit-msg": "node scripts/verifyCommitMsg.js"
   },
   "lint-staged": {
-    "*.{js,vue}": [
+    "*.{js,svelte}": [
       "eslint --fix",
       "git add"
     ]
+  },
+  "peerDependencies": {
+    "svelte": "^3.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -80,8 +84,11 @@
     "rollup-plugin-flow-no-whitespace": "^1.0.0",
     "rollup-plugin-node-resolve": "^3.0.3",
     "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-svelte": "^5.0.3",
     "rollup-watch": "^4.0.0",
     "selenium-server": "^2.53.1",
+    "svelte": "^3.2.0",
+    "svelte-loader": "^2.13.3",
     "terser": "^3.17.0",
     "typescript": "^3.3.1",
     "vue": "^2.5.16",
@@ -94,7 +101,7 @@
     "yorkie": "^2.0.0"
   },
   "bugs": {
-    "url": "https://github.com/vuejs/vue-router/issues"
+    "url": "https://github.com/wmzy/svelte-router/issues"
   },
-  "homepage": "https://github.com/vuejs/vue-router#readme"
+  "homepage": "https://github.com/wmzy/svelte-router#readme"
 }

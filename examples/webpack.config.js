@@ -40,6 +40,11 @@ module.exports = {
         use: 'vue-loader'
       },
       {
+        test: /\.svelte$/,
+        exclude: /node_modules/,
+        use: 'svelte-loader'
+      },
+      {
         test: /\.css$/,
         use: [
           'vue-style-loader',
@@ -50,6 +55,7 @@ module.exports = {
   },
 
   resolve: {
+    mainFields: ['svelte', 'browser', 'module', 'main'],
     alias: {
       vue: 'vue/dist/vue.esm.js',
       'vue-router': path.join(__dirname, '..', 'src')
