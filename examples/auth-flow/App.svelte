@@ -3,7 +3,7 @@ import {HistoryRouter, RouterProvider, RouterLink, RouterView} from '@svel/route
 import auth from './auth'
 import About from '../views/About.svelte'
 import Dashboard from '../views/Dashboard.svelte'
-import Login from './components/Login.svelte'
+import Login from './Login.svelte'
 
 let loggedIn = auth.loggedIn()
 

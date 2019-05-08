@@ -1,6 +1,6 @@
 <script>
 import {getRouter, getRoute, RouterLink, RouterView} from '@svel/router'
-import auth from '../auth'
+import auth from './auth'
 
 const router = getRouter();
 const route = getRoute()

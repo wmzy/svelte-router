@@ -49,9 +49,9 @@ const router = new HistoryRouter({
 
       <li><RouterLink to="/about">/about</RouterLink></li>
 
-      <RouterLink tag="li" to="/about">
-        <a>/about (active class on outer element)</a>
-      </RouterLink>
+      <li class="li-out">
+        <RouterLink to="/about" exact>/about <del>(active class on outer element)</del></RouterLink>
+      </li>
     </ul>
     <RouterView class="view"></RouterView>
   </div>

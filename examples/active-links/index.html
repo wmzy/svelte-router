@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="/global.css">
 <style>
-a[active=inclusive][exact], li.router-link-active a {
+a[active=inclusive][exact] {
   color: inherit;
 }
-a[active], li.router-link-active a {
+a[active] {
   color: #f66;
 }
-a[active=exact][exact], li.router-link-exact-active a {
+a[active=exact][exact] {
   border-bottom: 1px solid #f66;
+}
+.li-out a {
+  display: block;
 }
 </style>
 <a href="/">&larr; Examples index</a>
