@@ -18,19 +18,10 @@ $: if ($matched) {
   component = $matched.components[name]
 
   // resolve props
-  propsToPass = resolveProps($routeStore, $matched.props && $matched.props[name])
-  if (propsToPass) {
-    // clone to prevent mutation
-    propsToPass = data.props = extend({}, propsToPass)
-    // pass non-declared props as attrs
-    const attrs = data.attrs = data.attrs || {}
-    for (const key in propsToPass) {
-      if (!component.props || !(key in component.props)) {
-        attrs[key] = propsToPass[key]
-        delete propsToPass[key]
-      }
-    }
-  }
+  propsToPass = resolveProps($routeStore, $matched.props && $matched.props[name]) || {}
+  const {name: _, ...props} = $$props;
+
+  propsToPass = extend(props, propsToPass)
 }
 
 function resolveProps (route, config) {
