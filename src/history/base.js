@@ -5,7 +5,7 @@ import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { warn, isError } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
-import { resolveAsyncComponents } from '../util/resolve-components'
+import { flatten, flatMapComponents, resolveAsyncComponents } from '../util/resolve-components'
 
 export class History {
   router: Router;
@@ -101,11 +101,15 @@ export class History {
       return abort()
     }
 
-    const { activated } = resolveQueue(this.current.matched, route.matched)
+    const { updated, deactivated, activated } = resolveQueue(this.current.matched, route.matched)
 
     const queue: Array<?NavigationGuard> = [].concat(
+      // in-component leave guards
+      extractLeaveGuards(deactivated),
       // global before hooks
       this.router.beforeHooks,
+      // in-component update hooks
+      extractUpdateHooks(updated),
       // in-config enter guards
       activated.map(m => m.beforeEnter),
       // async components
@@ -210,4 +214,23 @@ function resolveQueue (
     activated: next.slice(i),
     deactivated: current.slice(i)
   }
+}
+
+function extractGuards (
+  records: Array<RouteRecord>,
+  name: string,
+  reverse?: boolean
+): Array<?Function> {
+  const guards = flatMapComponents(records, (def, instance, match, key) => {
+    if (instance && instance[name]) return instance[name].bind(instance)
+  })
+  return flatten(reverse ? guards.reverse() : guards)
+}
+
+function extractLeaveGuards (deactivated: Array<RouteRecord>): Array<?Function> {
+  return extractGuards(deactivated, 'beforeRouteLeave', true)
+}
+
+function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
+  return extractGuards(updated, 'beforeRouteUpdate')
 }

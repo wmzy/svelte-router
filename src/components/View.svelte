@@ -12,7 +12,13 @@ let matchedStore = getContext(contextKeys.matched);
 
 setContext(contextKeys.matched, derived(matchedStore, ([m, ...rest]) => rest))
 const matched = derived(matchedStore, ([m]) => m)
-let propsToPass, component;
+let propsToPass, component, instance;
+
+$: if ($matched) {
+  const {instances} = $matched;
+
+  instances[name] = instance;
+}
 
 $: if ($matched) {
   component = $matched.components[name]
@@ -46,4 +52,4 @@ function resolveProps (route, config) {
 }
 </script>
 
-<svelte:component this={component} {...propsToPass}/>
+<svelte:component this={component} {...propsToPass} bind:this={instance} />
