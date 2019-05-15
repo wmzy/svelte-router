@@ -1,7 +1,7 @@
 <script>
 import { warn } from '../util/warn'
 import { extend } from '../util/misc'
-import { getContext, setContext, onMount } from 'svelte';
+import { tick, getContext, setContext, onMount, onDestroy } from 'svelte';
 import { derived } from 'svelte/store';
 import * as contextKeys from '../context';
 
@@ -12,13 +12,21 @@ let matchedStore = getContext(contextKeys.matched);
 
 setContext(contextKeys.matched, derived(matchedStore, ([m, ...rest]) => rest))
 const matched = derived(matchedStore, ([m]) => m)
-let propsToPass, component, instance;
+let propsToPass, component, instances, instance;
 
 $: if ($matched) {
-  const {instances} = $matched;
+  if(instances && instances !== $matched.instances) {
+    delete instances[name];
+  }
+
+  instances = $matched.instances;
 
   instances[name] = instance;
 }
+
+onDestroy(() => {
+  delete instances[name];
+})
 
 $: if ($matched) {
   component = $matched.components[name]
