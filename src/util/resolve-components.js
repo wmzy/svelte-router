@@ -2,7 +2,7 @@
 
 import { warn, isError } from './warn'
 
-export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
+export function resolveAsyncAndESModuleComponents (matched: Array<RouteRecord>): Function {
   return (to, from, next) => {
     let hasAsync = false
     let pending = 0
@@ -20,7 +20,7 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
 
         const resolve = once(resolvedDef => {
           if (isESModule(resolvedDef)) {
-            resolvedDef = resolvedDef.default
+            resolvedDef = resolveESModule(resolvedDef)
           }
           // save resolved on async factory in case it's used elsewhere
           def.resolved = resolvedDef
@@ -59,11 +59,20 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
             }
           }
         }
+      } else if (isESModule(def)) {
+        match.components[key] = resolveESModule(def)
       }
     })
 
     if (!hasAsync) next()
   }
+}
+
+function resolveESModule (esm) {
+  const bre = esm.beforeRouteEnter
+  const def = esm.default
+  if (bre) def.beforeRouteEnter = bre
+  return def
 }
 
 export function flatMapComponents (

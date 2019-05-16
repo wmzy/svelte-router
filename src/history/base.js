@@ -5,7 +5,7 @@ import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { warn, isError } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
-import { flatten, flatMapComponents, resolveAsyncComponents } from '../util/resolve-components'
+import { flatten, flatMapComponents, resolveAsyncAndESModuleComponents } from '../util/resolve-components'
 
 export class History {
   router: Router;
@@ -113,7 +113,7 @@ export class History {
       // in-config enter guards
       activated.map(m => m.beforeEnter),
       // async components
-      resolveAsyncComponents(activated)
+      resolveAsyncAndESModuleComponents(activated)
     )
 
     this.pending = route
@@ -152,14 +152,23 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
+      const postEnterCbs = []
       // wait until async components are resolved before
-      const queue = [].concat(this.router.resolveHooks)
+      // extracting in-component enter guards
+      const enterGuards = extractEnterGuards(activated, postEnterCbs)
+      const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
           return abort()
         }
         this.pending = null
         onComplete(route)
+        const nextTick = this.router.nextTick
+        if (nextTick) {
+          nextTick(() => {
+            postEnterCbs.forEach(cb => { cb() })
+          })
+        }
       })
     })
   }
@@ -233,4 +242,31 @@ function extractLeaveGuards (deactivated: Array<RouteRecord>): Array<?Function> 
 
 function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
   return extractGuards(updated, 'beforeRouteUpdate')
+}
+
+function extractEnterGuards (
+  activated: Array<RouteRecord>,
+  cbs: Array<Function>
+): Array<?Function> {
+  const guards = flatMapComponents(activated, (def, instance, match, key) => {
+    const guard = def['beforeRouteEnter']
+    if (guard) return bindEnterGuard(guard, match, key, cbs)
+  })
+  return flatten(guards)
+}
+
+function bindEnterGuard (
+  guard: NavigationGuard,
+  match: RouteRecord,
+  key: string,
+  cbs: Array<Function>
+): NavigationGuard {
+  return function routeEnterGuard (to, from, next) {
+    return guard(to, from, cb => {
+      next(cb)
+      if (typeof cb === 'function') {
+        cbs.push(() => cb(match.instances[key]))
+      }
+    })
+  }
 }

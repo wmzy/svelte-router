@@ -5,7 +5,7 @@ import Home from '../views/Home.svelte'
 import Foo from '../views/Foo.svelte'
 import Bar from '../views/Bar.svelte'
 import Baz from './Baz.svelte'
-import Qux from './Qux.svelte'
+import * as Qux from './Qux.svelte'
 import Quux from './Quux.svelte'
 
 /**
