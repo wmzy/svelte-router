@@ -1,11 +1,8 @@
-import Vue from 'vue'
-import VueRouter from '../../../src/index'
-
-Vue.use(VueRouter)
+import { AbstractRouter } from '../../../src/index'
 
 describe('custom query parse/stringify', () => {
   it('should work', () => {
-    const router = new VueRouter({
+    const router = new AbstractRouter({
       parseQuery: () => ({ foo: 1 }),
       stringifyQuery: () => '?foo=1'
     })

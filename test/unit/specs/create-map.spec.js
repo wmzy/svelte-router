@@ -68,7 +68,7 @@ describe('Creating Route Map', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap(routes)
     expect(console.warn).toHaveBeenCalledTimes(1)
-    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
+    expect(console.warn.calls.argsFor(0)[0]).toMatch('svelte-router] Named Route \'bar\'')
   })
 
   it('in development, throws if path is missing', function () {
@@ -94,7 +94,7 @@ describe('Creating Route Map', function () {
       }
     ])
     expect(console.warn).toHaveBeenCalled()
-    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
+    expect(console.warn.calls.argsFor(0)[0]).toMatch('svelte-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
   })
 
   describe('path-to-regexp options', function () {

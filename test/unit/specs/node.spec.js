@@ -1,16 +1,13 @@
-import Vue from 'vue'
-import VueRouter from '../../../src/index'
-
-Vue.use(VueRouter)
+import { AbstractRouter } from '../../../src/index'
 
 describe('Usage in Node', () => {
   it('should be in abstract mode', () => {
-    const router = new VueRouter()
+    const router = new AbstractRouter()
     expect(router.mode).toBe('abstract')
   })
 
   it('should be able to navigate without app instance', () => {
-    const router = new VueRouter({
+    const router = new AbstractRouter({
       routes: [
         { path: '/', component: { name: 'foo' }},
         { path: '/bar', component: { name: 'bar' }}
@@ -24,7 +21,7 @@ describe('Usage in Node', () => {
     const Foo = { name: 'foo' }
     const Bar = { name: 'bar' }
     const Baz = { name: 'baz' }
-    const router = new VueRouter({
+    const router = new AbstractRouter({
       routes: [
         { path: '/', component: Foo },
         { path: '/bar', component: Bar, children: [
