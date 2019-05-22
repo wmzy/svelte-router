@@ -6,5 +6,5 @@ import {RouterLink, RouterView} from '@svel/router'
 <div class="nested-parent">
   <h3>qux</h3>
   <RouterLink to={ {name: 'quux'} }>/quux</RouterLink>
-  <RouterView class="nested-child"></RouterView>
+  <div class="nested-child"><RouterView /></div>
 </div>

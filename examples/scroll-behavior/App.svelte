@@ -43,19 +43,20 @@ const scrollBehavior = function (to, from, savedPosition) {
         position.y = 0
       }
 
+      resolve(position)
       // wait for the out transition to complete (if necessary)
-      this.app.$root.$once('triggerScroll', () => {
-        // if the resolved position is falsy or an empty object,
-        // will retain current scroll position.
-        resolve(position)
-      })
+      // this.app.$root.$once('triggerScroll', () => {
+      //   // if the resolved position is falsy or an empty object,
+      //   // will retain current scroll position.
+      //   resolve(position)
+      // })
     })
   }
 }
 
 // todo: not support now
 function afterLeave () {
-  this.$root.$emit('triggerScroll')
+  // this.$root.$emit('triggerScroll')
 }
 
 const router = new HistoryRouter({
@@ -78,8 +79,8 @@ const router = new HistoryRouter({
         <li><RouterLink to="/bar#anchor">/bar#anchor</RouterLink></li>
         <li><RouterLink to="/bar#anchor2">/bar#anchor2</RouterLink></li>
       </ul>
-      <transition name="fade" mode="out-in" @after-leave="afterLeave">
-        <RouterView class="view"></RouterView>
-      </transition>
+      <div class="view">
+        <RouterView />
+      </div>
   </div>
 </RouterProvider>

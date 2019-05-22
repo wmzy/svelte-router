@@ -1,7 +1,7 @@
 <script>
 import {onDestroy} from 'svelte';
 import {HistoryRouter, RouterProvider, RouterLink, RouterView} from '@svel/router'
-import Home from '../views/Home.svelte'
+import Home from './Home.svelte'
 import Default from '../views/Default.svelte'
 import Foo from '../views/Foo.svelte'
 import Bar from '../views/Bar.svelte'
@@ -113,6 +113,8 @@ const router = new HistoryRouter({
           /not-found (redirects to /)
         </RouterLink></li>
       </ul>
-      <RouterView class="view"></RouterView>
+      <div class="view">
+        <RouterView />
+      </div>
   </div>
 </RouterProvider>

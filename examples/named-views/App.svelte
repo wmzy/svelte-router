@@ -37,8 +37,8 @@ const router = new HistoryRouter({
         <li><RouterLink to="/">/</RouterLink></li>
         <li><RouterLink to="/other">/other</RouterLink></li>
       </ul>
-      <RouterView class="view one"></RouterView>
-      <RouterView class="view two" name="a"></RouterView>
-      <RouterView class="view three" name="b"></RouterView>
+      <div class="view one"><RouterView /></div>
+      <div class="view two"><RouterView name="a" /></div>
+      <div class="view three"><RouterView name="b" /></div>
   </div>
 </RouterProvider>

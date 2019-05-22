@@ -25,7 +25,7 @@ $: if ($matched) {
 }
 
 onDestroy(() => {
-  delete instances[name];
+  if (instances) delete instances[name];
 })
 
 $: if ($matched) {

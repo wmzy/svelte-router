@@ -7,8 +7,8 @@ import Login from './Login.svelte'
 
 let loggedIn = auth.loggedIn()
 
-auth.onChange = loggedIn => {
-  loggedIn = loggedIn
+auth.onChange = li => {
+  loggedIn = li
 }
 
 function requireAuth (to, from, next) {

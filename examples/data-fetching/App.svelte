@@ -21,6 +21,6 @@ const router = new HistoryRouter({
         <li><RouterLink to="/post/2">/post/2</RouterLink></li>
         <li><RouterLink to="/post/3">/post/3</RouterLink></li>
       </ul>
-      <RouterView class="view"></RouterView>
+      <div class="view"><RouterView /></div>
   </div>
 </RouterProvider>

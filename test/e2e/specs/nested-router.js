@@ -2,7 +2,7 @@ module.exports = {
   'basic': function (browser) {
     browser
       .url('http://localhost:8080/nested-router/')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.count('li a', 3)
 
       .click('li:nth-child(1) a')

@@ -32,6 +32,8 @@ const router = new HistoryRouter({
         <li><RouterLink to="/dynamic/1">/dynamic/1</RouterLink></li>
         <li><RouterLink to="/attrs">/attrs</RouterLink></li>
       </ul>
-      <RouterView class="view" foo="123"></RouterView>
+      <div class="view">
+        <RouterView foo="123"></RouterView>
+      </div>
   </div>
 </RouterProvider>

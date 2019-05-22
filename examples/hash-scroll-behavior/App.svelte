@@ -61,6 +61,6 @@ router.listen(r => route = r)
         <li><RouterLink to="/bar#anchor">/bar#anchor</RouterLink></li>
         <li><RouterLink to="/bar#anchor2">/bar#anchor2</RouterLink></li>
       </ul>
-      <RouterView class="view"></RouterView>
+      <div class="view"><RouterView /></div>
     </div>
 </RouterProvider>

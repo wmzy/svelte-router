@@ -15,6 +15,7 @@ export default class BaseRouter {
   static version: string;
 
   nextTick: Function;
+  nextTicks: Array<Function>;
   listeners: Array<Function>;
   ready: boolean;
   readyCbs: Array<Function>;
@@ -27,29 +28,41 @@ export default class BaseRouter {
   resolveHooks: Array<?NavigationGuard>;
   afterHooks: Array<?AfterNavigationHook>;
 
-  // implemented by sub-classes
-  +init: () => void;
-
   constructor (options: RouterOptions = {}) {
     this.nextTick = null
+    this.nextTicks = []
     this.listeners = []
     this.options = options
     this.beforeHooks = []
     this.resolveHooks = []
     this.afterHooks = []
     this.matcher = createMatcher(options.routes || [], this)
-
-    this.init()
-    this.history.listen(route => {
-      this.listeners.forEach(fn => fn(route))
-    })
   }
 
   listen (fn: Function) {
     this.listeners.push(fn)
     return () => {
-      this.listeners.splice(this.listeners.indexOf(fn), 1)
+      const index = this.listeners.indexOf(fn)
+      if (index > -1) this.listeners.splice(index, 1)
     }
+  }
+
+  init (nextTick) {
+    this.nextTicks.push(nextTick)
+    const destroy = () => {
+      const index = this.nextTicks.indexOf(nextTick)
+      if (index > -1) this.nextTicks.splice(index, 1)
+      if (this.nextTick === nextTick) this.nextTick = this.nextTicks[0] || null
+    }
+    if (this.nextTick) return destroy
+
+    this.nextTick = nextTick
+
+    this.history.listen(route => {
+      this.listeners.forEach(fn => fn(route))
+    })
+    this.history.init()
+    return destroy
   }
 
   match (

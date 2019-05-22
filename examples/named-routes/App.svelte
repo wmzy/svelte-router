@@ -27,6 +27,8 @@ onDestroy(router.listen(r => (route = r)))
       <li><RouterLink to={{ name: 'foo' }}>foo</RouterLink></li>
       <li><RouterLink to={{ name: 'bar', params: { id: 123 }}}>bar</RouterLink></li>
     </ul>
-    <RouterView class="view" />
+    <div class="view">
+      <RouterView />
+    </div>
   </div>
 </RouterProvider>

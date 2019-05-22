@@ -4,7 +4,7 @@ module.exports = {
 
     browser
       .url('http://localhost:8080/scroll-behavior/')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.count('li a', 5)
       .assert.containsText('.view', 'home')
 
@@ -12,13 +12,13 @@ module.exports = {
         window.scrollTo(0, 100)
       })
       .click('li:nth-child(2) a')
-      .waitForElementPresent('.view.foo', TIMEOUT)
+      .waitForElementPresent('.view .foo', TIMEOUT)
       .assert.containsText('.view', 'foo')
       .execute(function () {
         window.scrollTo(0, 200)
         window.history.back()
       })
-      .waitForElementPresent('.view.home', TIMEOUT)
+      .waitForElementPresent('.view .home', TIMEOUT)
       .assert.containsText('.view', 'home')
       .assert.evaluate(function () {
         return window.pageYOffset === 100
@@ -31,13 +31,13 @@ module.exports = {
         history.scrollRestoration = 'manual'
       })
       .click('li:nth-child(2) a')
-      .waitForElementPresent('.view.foo', TIMEOUT)
+      .waitForElementPresent('.view .foo', TIMEOUT)
       .assert.containsText('.view', 'foo')
       .execute(function () {
         window.scrollTo(0, 200)
         window.history.back()
       })
-      .waitForElementPresent('.view.home', TIMEOUT)
+      .waitForElementPresent('.view .home', TIMEOUT)
       .assert.containsText('.view', 'home')
       .assert.evaluate(function () {
         return window.pageYOffset === 100
@@ -51,7 +51,7 @@ module.exports = {
         window.scrollTo(0, 50)
         window.history.forward()
       })
-      .waitForElementPresent('.view.foo', TIMEOUT)
+      .waitForElementPresent('.view .foo', TIMEOUT)
       .assert.containsText('.view', 'foo')
       .assert.evaluate(function () {
         return window.pageYOffset === 200
@@ -60,14 +60,14 @@ module.exports = {
       .execute(function () {
         window.history.back()
       })
-      .waitForElementPresent('.view.home', TIMEOUT)
+      .waitForElementPresent('.view .home', TIMEOUT)
       .assert.containsText('.view', 'home')
       .assert.evaluate(function () {
         return window.pageYOffset === 50
       }, null, 'restore scroll position on back again')
 
       .click('li:nth-child(3) a')
-      .waitForElementPresent('.view.bar', TIMEOUT)
+      .waitForElementPresent('.view .bar', TIMEOUT)
       .assert.evaluate(function () {
         return window.pageYOffset === 0
       }, null, 'scroll to top on new entry')

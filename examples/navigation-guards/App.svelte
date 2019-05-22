@@ -79,6 +79,8 @@ router.beforeEach((to, from, next) => {
         <li><RouterLink to="/quux/1">/quux/1</RouterLink></li>
         <li><RouterLink to="/quux/2">/quux/2</RouterLink></li>
       </ul>
-      <RouterView class="view"></RouterView>
+      <div class="view">
+        <RouterView />
+      </div>
   </div>
 </RouterProvider>

@@ -3,7 +3,7 @@ module.exports = {
   'active links': function (browser) {
     browser
       .url('http://localhost:8080/active-links/')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 10000000)
       .assert.count('li a', 11)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/active-links/')
@@ -17,7 +17,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(9) a', 'href', '/active-links/users/evan?foo=bar&baz=qux')
       .assert.attributeContains('li:nth-child(10) a', 'href', '/active-links/about')
       .assert.attributeContains('li:nth-child(11) a', 'href', '/active-links/about')
-      .assert.containsText('.view', 'Home')
+      .assert.containsText('.view', 'home')
 
     assertActiveLinks(1, [1, 2], null, [1, 2])
     assertActiveLinks(2, [1, 2], null, [1, 2])
@@ -36,18 +36,10 @@ module.exports = {
     function assertActiveLinks (n, activeA, activeLI, exactActiveA, exactActiveLI) {
       browser.click(`li:nth-child(${n}) a`)
       activeA.forEach(i => {
-        browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
-      })
-      activeLI && activeLI.forEach(i => {
-        browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
+        browser.assert.attributePresent(`li:nth-child(${i}) a`, 'active')
       })
       exactActiveA.forEach(i => {
-        browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-exact-active')
-          .assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
-      })
-      exactActiveLI && exactActiveLI.forEach(i => {
-        browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-exact-active')
-          .assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
+        browser.assert.attributeEquals(`li:nth-child(${i}) a`, 'active', 'exact')
       })
     }
   }

@@ -13,6 +13,8 @@ export class AbstractHistory extends History {
     this.index = -1
   }
 
+  init () {}
+
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     this.transitionTo(location, route => {
       this.stack = this.stack.slice(0, this.index + 1).concat(route)

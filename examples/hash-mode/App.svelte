@@ -33,6 +33,6 @@ router.listen(r => route = r)
       </ul>
       <pre id="query-t">{ route.query.t }</pre>
       <pre id="hash">{ route.hash }</pre>
-      <RouterView class="view"></RouterView>
+      <div class="view"><RouterView /></div>
     </div>
 </RouterProvider>

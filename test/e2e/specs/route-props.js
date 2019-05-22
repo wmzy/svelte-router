@@ -4,7 +4,7 @@ module.exports = {
   'route-props': function (browser) {
     browser
       .url('http://localhost:8080/route-props/')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.count('li a', 5)
 
       .assert.urlEquals('http://localhost:8080/route-props/')

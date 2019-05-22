@@ -37,6 +37,10 @@ export class HTML5History extends History {
     })
   }
 
+  init () {
+    this.transitionTo(this.getCurrentLocation())
+  }
+
   go (n: number) {
     window.history.go(n)
   }

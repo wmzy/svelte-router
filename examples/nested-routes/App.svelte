@@ -14,6 +14,7 @@ import Zap from './Zap.svelte'
 const router = new HistoryRouter({
   base: __dirname,
   routes: [
+    { path: '/', redirect: '/parent' },
     {
       path: '/parent',
       component: Parent,
@@ -71,6 +72,8 @@ router.listen(r => route = r)
       <li><RouterLink to="/parent/qux/1/quux">/parent/qux/1/quux</RouterLink></li>
       <li><RouterLink to="/parent/qux/2/quux">/parent/qux/2/quux</RouterLink></li>
     </ul>
-    <RouterView class="view"></RouterView>
+    <div class="view">
+      <RouterView />
+    </div>
   </div>
 </RouterProvider>

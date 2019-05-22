@@ -2,7 +2,7 @@ module.exports = {
   'nested routes': function (browser) {
     browser
       .url('http://localhost:8080/nested-routes/')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.count('li a', 11)
       .assert.urlEquals('http://localhost:8080/nested-routes/parent')
       .assert.containsText('.view', 'Parent')
@@ -60,7 +60,7 @@ module.exports = {
       .assert.containsText('.view', 'zap')
       .assert.evaluate(function () {
         var zapId = document.querySelector('pre').textContent
-        return (zapId === '')
+        return (zapId === 'undefined')
       }, null, 'optional zapId')
 
       // test relative params
@@ -79,11 +79,11 @@ module.exports = {
 
     // check initial visit
       .url('http://localhost:8080/nested-routes/parent/foo')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'foo')
       .url('http://localhost:8080/nested-routes/baz')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'baz')
       .end()

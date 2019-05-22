@@ -24,6 +24,6 @@ router.onReady(() => {
 <RouterProvider {router}>
     <div id="app">
       <h1>Async</h1>
-      <RouterView class="view"></RouterView>
+      <div class="view"><RouterView /></div>
     </div>
 </RouterProvider>

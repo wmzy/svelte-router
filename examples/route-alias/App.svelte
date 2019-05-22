@@ -68,6 +68,8 @@ const router = new HistoryRouter({
           /home/nested-alias/foo (renders /home/nested/foo)
         </RouterLink></li>
       </ul>
-      <RouterView class="view"></RouterView>
+      <div class="view">
+        <RouterView />
+      </div>
   </div>
 </RouterProvider>

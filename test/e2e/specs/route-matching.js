@@ -2,7 +2,7 @@ module.exports = {
   'route-matching': function (browser) {
     browser
       .url('http://localhost:8080/route-matching/')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.count('li a', 10)
       .assert.evaluate(function () {
         var route = JSON.parse(document.querySelector('pre').textContent)

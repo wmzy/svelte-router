@@ -53,6 +53,6 @@ const router = new HistoryRouter({
         <RouterLink to="/about" exact>/about <del>(active class on outer element)</del></RouterLink>
       </li>
     </ul>
-    <RouterView class="view"></RouterView>
+    <div class="view"><RouterView /></div>
   </div>
 </RouterProvider>

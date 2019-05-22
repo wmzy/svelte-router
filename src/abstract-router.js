@@ -4,7 +4,9 @@ import Router from './router'
 import { AbstractHistory } from './history/abstract'
 
 export default class AbstractRouter extends Router {
-  init () {
+  constructor (options) {
+    super(options)
+
     this.mode = 'abstract'
     this.history = new AbstractHistory(this, this.options.base)
   }

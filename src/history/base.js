@@ -249,7 +249,7 @@ function extractEnterGuards (
   cbs: Array<Function>
 ): Array<?Function> {
   const guards = flatMapComponents(activated, (def, instance, match, key) => {
-    const guard = def['beforeRouteEnter']
+    const guard = def && def['beforeRouteEnter']
     if (guard) return bindEnterGuard(guard, match, key, cbs)
   })
   return flatten(guards)

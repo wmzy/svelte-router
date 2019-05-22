@@ -97,7 +97,7 @@ const hasSymbol =
   typeof Symbol.toStringTag === 'symbol'
 
 function isESModule (obj) {
-  return obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module')
+  return obj && (obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module'))
 }
 
 // in Webpack 2, require.ensure now also returns a Promise

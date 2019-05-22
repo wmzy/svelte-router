@@ -36,17 +36,10 @@ module.exports = {
         'acceptSslCerts': true,
         'chromeOptions': {
           'args': [
+            '--headless',
             'window-size=1280,800'
           ]
         }
-      }
-    },
-
-    'phantomjs': {
-      'desiredCapabilities': {
-        'browserName': 'phantomjs',
-        'javascriptEnabled': true,
-        'acceptSslCerts': true
       }
     }
   }

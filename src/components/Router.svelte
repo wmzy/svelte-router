@@ -5,11 +5,8 @@ import * as contextKeys from '../context';
 
 export let router;
 
-onMount(() => {
-  if (router.nextTick) return;
-  router.nextTick = fn => tick().then(fn)
-  return () => delete router.nextTick;
-})
+onMount(() => router.init(fn => tick().then(fn)))
+
 const route = router.currentRoute;
 const routerStore = writable(router);
 const routeStore = writable(route);

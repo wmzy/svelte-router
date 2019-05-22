@@ -7,7 +7,7 @@ module.exports = {
 
     browser
       .url('http://localhost:8080/navigation-guards/')
-      .waitForElementVisible('#app', 1000)
+      .waitForElementPresent('#app', 1000)
       .assert.count('li a', 8)
       .assert.containsText('.view', 'home')
 
@@ -80,7 +80,7 @@ module.exports = {
       // should redirect to root
       .assert.urlEquals('http://localhost:8080/navigation-guards/')
       // and should not render anything
-      .assert.elementNotPresent('.view')
+      .assert.elementNotPresent('.view .foo')
 
       .url('http://localhost:8080/navigation-guards/foo')
       .acceptAlert()
@@ -94,7 +94,7 @@ module.exports = {
       // should redirect to root
       .assert.urlEquals('http://localhost:8080/navigation-guards/')
       // and should not render anything
-      .assert.elementNotPresent('.view')
+      .assert.elementNotPresent('.view .bar')
 
       .url('http://localhost:8080/navigation-guards/bar')
       .acceptAlert()
