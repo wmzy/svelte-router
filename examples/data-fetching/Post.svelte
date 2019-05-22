@@ -56,12 +56,4 @@ $: {
   transition: all .35s ease;
   position: absolute;
 }
-.slide-enter {
-  opacity: 0;
-  transform: translate(30px, 0);
-}
-.slide-leave-active {
-  opacity: 0;
-  transform: translate(-30px, 0);
-}
 </style>
